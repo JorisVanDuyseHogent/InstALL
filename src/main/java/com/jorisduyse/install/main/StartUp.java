@@ -1,6 +1,7 @@
 package com.jorisduyse.install.main;
 
 import com.jorisduyse.install.domain.DomainController;
+import com.jorisduyse.install.gui.ScreenController;
 import com.jorisduyse.install.gui.StartupScreen;
 import com.jorisduyse.install.resources.ResourceController;
 import javafx.application.Application;
@@ -15,14 +16,10 @@ public class StartUp extends Application {
     private static Stage stage;
 
     @Override
-    public void start(Stage stage){
+    public void start(Stage stage) {
         this.stage = stage;
         DomainController dc = new DomainController();
-        StartupScreen ss = new StartupScreen(stage, dc);
-        Scene scene = new Scene(ss, 500, 400);
-        stage.setTitle("InstAll!");
-        stage.setScene(scene);
-        stage.show();
+        ScreenController.changeScreenTo_StartupScreen(dc, stage);
     }
 
     public static void main(String[] args) {

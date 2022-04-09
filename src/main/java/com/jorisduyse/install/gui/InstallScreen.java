@@ -22,6 +22,7 @@ import java.util.List;
 
 public class InstallScreen extends GridPane {
     private DomainController dc;
+    private Stage stage;
     private StartupScreen lastScreen;
     private InstallingScreen installingScreen;
     private final String[] INSTALL_DIRECTORIES = { "C:\\Program Files\\",
@@ -39,8 +40,9 @@ public class InstallScreen extends GridPane {
     private Button btnApply;
     private Button btnGoBack;
 
-    public InstallScreen(StartupScreen lastScreen, DomainController dc) {
-        this.lastScreen = lastScreen;
+    public InstallScreen(/*StartupScreen lastScreen,*/ DomainController dc, Stage stage) {
+//        this.lastScreen = lastScreen;
+        this.stage = stage;
         this.dc = dc;
         buildGui();
     }
@@ -131,7 +133,7 @@ public class InstallScreen extends GridPane {
             applyCheckBoxes();
             try {
                 dc.installAll();
-                installingScreen = new InstallingScreen(lastScreen, dc);
+                installingScreen = new InstallingScreen(dc, stage);
                 Scene scene = new Scene(installingScreen, 500, 400);
                 Stage stage = (Stage) (this.getScene().getWindow());
                 stage.setScene(scene);
@@ -146,13 +148,14 @@ public class InstallScreen extends GridPane {
                 errorMessage("Access Denied", "You have no access to this folder, restart application as Admin");
             } catch (IOException e) {
                 e.printStackTrace();
+            } catch (InterruptedException e) {
+                errorMessage("Execution Interrupted", "The installer was interrupted");
             }
 
         });
 
         btnGoBack.setOnMouseClicked(evt -> {
-            Stage stage = (Stage) InstallScreen.this.getScene().getWindow();
-            stage.setScene(lastScreen.getScene());
+            ScreenController.changeScreenTo_StartupScreen(dc, stage);
         });
     }
 

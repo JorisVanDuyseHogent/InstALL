@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
-import static java.nio.file.StandardCopyOption.*;
-
 public class InstallFiles {
     private String targetDir;
     private String originDir;
@@ -44,7 +42,11 @@ public class InstallFiles {
         return targetDir;
     }
 
-    public void installAll() throws IOException {
+    public String getOriginDir() {
+        return originDir;
+    }
+
+    public void installAll() throws IOException, InterruptedException {
         moveDirectory(originDir, targetDir);
         createShortCut();
         if (startMenuBool) { addToStart(); }
@@ -53,31 +55,35 @@ public class InstallFiles {
         if (startUpBool) { enableLaunchAtStartup(); }
     }
 
-    public void moveDirectory(String originDir, String targetDir) throws IOException {
+    private void moveDirectory(String originDir, String targetDir) throws IOException {
         Files.move(new File(originDir).toPath(), new File(targetDir).toPath(), StandardCopyOption.REPLACE_EXISTING);
     }
 
-    public void createShortCut() {
+    private void createShortCut() throws IOException, InterruptedException {
+        RunCMD.runCMD("mklink C:\\Users\\Qwert\\Downloads\\test.lnk C:\\Users\\Qwert\\Downloads\\test.txt");
         System.err.println("Creating shortcut");
+    }
+
+    private void searchExecutables() {
 
     }
 
-    public void addToStart() {
+    private void addToStart() {
         System.err.println("Adding to start menu");
 
     }
 
-    public void addToTaskbar() {
+    private void addToTaskbar() {
         System.err.println("Adding taskbar shortcut");
 
     }
 
-    public void addToDesktop() {
+    private void addToDesktop() {
         System.err.println("Adding desktop shortcut");
 
     }
 
-    public void enableLaunchAtStartup() {
+    private void enableLaunchAtStartup() {
         System.err.println("enabling startup");
 
     }
